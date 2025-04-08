@@ -107,3 +107,59 @@ class Predicado:
             sustituciones.get(arg, arg) for arg in self.argumentos
         ]
         return Predicado(self.nombre, nuevos_argumentos)
+    
+
+# ========================================
+# Conectores Lógicos (Árbol de Fórmulas)
+# ========================================
+
+class Formula:
+    """Clase base para fórmulas lógicas."""
+    pass
+
+
+class Negacion(Formula):
+    def __init__(self, operando):
+        self.operando = operando
+
+    def __str__(self):
+        return f"¬{self.operando}"
+
+    def __repr__(self):
+        return str(self)
+
+
+class Conjuncion(Formula):
+    def __init__(self, izquierda, derecha):
+        self.izquierda = izquierda
+        self.derecha = derecha
+
+    def __str__(self):
+        return f"({self.izquierda} ∧ {self.derecha})"
+
+    def __repr__(self):
+        return str(self)
+
+
+class Disyuncion(Formula):
+    def __init__(self, izquierda, derecha):
+        self.izquierda = izquierda
+        self.derecha = derecha
+
+    def __str__(self):
+        return f"({self.izquierda} ∨ {self.derecha})"
+
+    def __repr__(self):
+        return str(self)
+
+
+class Implicacion(Formula):
+    def __init__(self, antecedente, consecuente):
+        self.antecedente = antecedente
+        self.consecuente = consecuente
+
+    def __str__(self):
+        return f"({self.antecedente} → {self.consecuente})"
+
+    def __repr__(self):
+        return str(self)

@@ -2,6 +2,8 @@ from motor_inferencia import BaseConocimiento
 from transformacion_fnc import convertir_a_fnc
 from conversor_objetos import extraer_clausulas
 from motor_resolucion import negar_conclusion, resolver_base
+from parser_expresiones import parsear_expresion
+
 
 def main():
     print("=== Motor de Inferencia por Resolución ===\n")
@@ -56,4 +58,7 @@ def main():
         print("\n❌ Conclusión NO derivada: La conclusión NO es consecuencia lógica de las premisas.")
 
 if __name__ == "__main__":
-    main()
+    expresion = '((A => B) & -C)'
+    objeto = parsear_expresion(expresion)
+
+    print(objeto)  # Debería imprimir la estructura como objetos anidados
