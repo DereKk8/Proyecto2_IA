@@ -52,7 +52,7 @@ class Clausula:
         return str(self)
 
 
-class BaseDeConocimientos:
+class BaseConocimiento:
     """
     Representa la base de conocimientos del sistema.
     Contiene un conjunto de cláusulas en FNC.
@@ -70,3 +70,40 @@ class BaseDeConocimientos:
 
     def __str__(self):
         return "\n".join(f"Cláusula {i+1}: {str(c)}" for i, c in enumerate(self.clausulas))
+    
+class Predicado:
+    def __init__(self, nombre, argumentos):
+        """
+        nombre: str — nombre del predicado, ej: "Padre", "Estudiante"
+        argumentos: list[str] — lista de variables o constantes, ej: ["x"], ["juan", "maria"]
+        """
+        self.nombre = nombre
+        self.argumentos = argumentos  # lista de strings
+
+    def __eq__(self, otro):
+        return isinstance(otro, Predicado) and self.nombre == otro.nombre and self.argumentos == otro.argumentos
+
+    def __hash__(self):
+        return hash((self.nombre, tuple(self.argumentos)))
+
+    def __str__(self):
+        return f"{self.nombre}({', '.join(self.argumentos)})"
+
+    def __repr__(self):
+        return str(self)
+
+    def copiar(self):
+        return Predicado(self.nombre, self.argumentos[:])
+
+    def es_variable(self, termino):
+        return termino[0].islower()  # por convención: variables en minúscula, constantes en mayúscula
+
+    def sustituir(self, sustituciones):
+        """
+        Aplica sustituciones a los argumentos del predicado.
+        sustituciones: dict[str -> str] — ej: {x: juan}
+        """
+        nuevos_argumentos = [
+            sustituciones.get(arg, arg) for arg in self.argumentos
+        ]
+        return Predicado(self.nombre, nuevos_argumentos)
